@@ -1,1 +1,26 @@
-== playing with java modules and services
+== Playing with Java modules
+
+=== module path replaces classpath
+```
+  java -p ./main/target/classes:...
+       -m at.segv.read.cli/at.segv.read.Main
+```
+
+```
+ java [options] -m <module>[/<mainclass>] [args...]
+ java [options] --module <module>[/<mainclass>] [args...]
+           (to execute the main class in a module)
+```
+
+similar with `javac`
+
+maven supports java modules
+
+
+=== module-info.java
+
+* place `module-info.java` on sources root`
+** `exports` makes packages visible from outside the module
+** `requires` makes external packages visible from inside the module
+** `opens` makes packages visible *on runtime* from anywhere
+** legacy (non modular) code in jar files are in *automatic modules* generated from the jar file name
