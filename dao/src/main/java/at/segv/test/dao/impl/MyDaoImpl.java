@@ -9,6 +9,6 @@ public class MyDaoImpl implements MyDao {
 
     @Override
     public String read() {
-        return Helper.test();
+        return Helper.read();
     }
 }
