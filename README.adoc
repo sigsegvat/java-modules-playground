@@ -1,10 +1,53 @@
 == Playing with Java modules
 
+== Project Jigsaw
+
+The https://openjdk.java.net/projects/jigsaw/[primary goals] of this Project were to:
+
+* Make it *easier for developers* to construct and *maintain libraries and large applications*
+* *Improve the security and maintainability* of Java SE Platform Implementations in general, and the JDK in particular
+* Enable *improved application performance*
+* Enable the *Java SE Platform to scale down*
+
+=== Project Jigsaw JEPs
+
+* 200: The Modular JDK
+* 201: Modular Source Code
+* 220: Modular Run-Time Images
+* 260: Encapsulate Most Internal APIs
+* 261: Module System
+* 282: jlink: The Java Linker
+
+=== Modular JDK
+
+image:java-modules.png[willhaben]
+
+== Module system for applications
+
+=== class path
+
+`java -cp ....`
+
+* everything on the classpath is visible to all other classes
+* difficult to hide implementation details and internal classes
+* difficult to exclude unused modules from runtime image (e.g. small docker image)
+
+=== module system
+
+* modules decide what is visible outside of the module
+* define which other modules are used (compile and runtime)
+
+=== howto modularize (legacy) applications?
+
+* place `module-info.java` on sources root
+** `exports` makes packages visible from outside the module
+** `requires` makes external packages visible from inside the module
+** `opens` makes packages visible *on runtime* from anywhere
+** legacy (non modular) code in jar files are in *automatic modules* generated from the jar file name
+
 === module path replaces classpath
-```
-  java -p ./main/target/classes:...
-       -m at.segv.read.cli/at.segv.read.Main
-```
+
+instead of class path, use module path
 
 ```
  java [options] -m <module>[/<mainclass>] [args...]
@@ -12,15 +55,8 @@
            (to execute the main class in a module)
 ```
 
-similar with `javac`
+=== module path with javac
 
-maven supports java modules
-
-
-=== module-info.java
-
-* place `module-info.java` on sources root`
-** `exports` makes packages visible from outside the module
-** `requires` makes external packages visible from inside the module
-** `opens` makes packages visible *on runtime* from anywhere
-** legacy (non modular) code in jar files are in *automatic modules* generated from the jar file name
+* similar with `javac`
+* maven supports java modules
+* intellij has syntax support
